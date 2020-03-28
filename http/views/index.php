@@ -65,10 +65,10 @@
                         <div class='col-12'></div>
                         <div class='col-12 col-md-3'><label>Client Search <input class='form-control' type='text' name='client' /></label></div>
                         <div class='col-12 col-md-3 mr-auto'><label>Deal Search <input class='form-control' type='text' name='deal' /></label></div>
-                        <div class='col-auto ml-auto'><button class='reload_table btn btn-primary'>Load Logs</button></div>
+                        <div class='col-auto ml-auto'><button class='reload_table btn btn-primary align-self-end'>Load Logs</button></div>
                         <div class='col-12'></div>
                         <div class='col-12 '>
-                            <table class=' deals_log_table '>
+                            <table class=' deals_log_table w-100' id='deals_log_table'>
                                 <thead>
                                     <tr>
                                         <th data-data='client'>Client</th>
