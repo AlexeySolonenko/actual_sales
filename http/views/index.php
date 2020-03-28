@@ -6,6 +6,7 @@
     <title>CSV & MySQL app</title>
     <meta name="description" content="CSV & MySQL app">
     <meta name="author" content="Alex">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
@@ -43,34 +44,45 @@
         <div class='card my-3'>
             <div class='card-header'>Results Table </div>
             <div class='card-body'>
-                <div class='form-row'>
-                    <div class='col-auto ml-auto'><button data-btn-self-init-ajax='getDealsLog' class=' btn btn-primary'>Load Logs</button></div>
-                    <div class='col-12'></div>
-                    <div class='col-12 '>
-                        <table class=' deals_log_table '>
-                            <thead>
-                                <tr>
-                                    <th data-data='client'>Client</th>
-                                    <th data-data='deal'>Deal</th>
-                                    <th data-data='time_string' data-sort="time">Time</th>
-                                    <th data-data='accepted'>Accepted</th>
-                                    <th data-data='refused'>Refused</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                            </tbody>
-                        </table>
+                <form name='load_deals_log_form' method="POST">
+                    <div class='form-row'>
+                        <div class='col-auto'>
+                            <div class="row">
+                                <label class="col-auto">From<input value='<?= $m['now'];?>' type='date' name='from' class='form-control form-control-sm to-init-date-picker' /></label>
+                                <label class="col-auto">To<input value='<?= $m['now'];?>'  type='date' name='to' class='form-control form-control-sm to-init-date-picker' /></label>
+                            </div>
+                        </div>
+                        <div class='col-auto'><label>Client Search <input type='text' name='client' /></label>
+                        <div class='col-auto'><label>Deal Search <input type='text' name='deal' /></label>
+                        <div class='col-12'></div>
+                        <div class='col-auto ml-auto'><button class='reload_table btn btn-primary'>Load Logs</button></div>
+                        <div class='col-12'></div>
+                        <div class='col-12 '>
+                            <table class=' deals_log_table '>
+                                <thead>
+                                    <tr>
+                                        <th data-data='client'>Client</th>
+                                        <th data-data='deal'>Deal</th>
+                                        <th data-data='time_string' data-sort="time">Time</th>
+                                        <th data-data='accepted'>Accepted</th>
+                                        <th data-data='refused'>Refused</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class='col-auto ml-auto'><button class='reload_table btn btn-primary'>Load Logs</button></div>
+                        <div class='col-12'></div>
                     </div>
-                    <div class='col-auto ml-auto'><button data-btn-self-init-ajax='getDealsLog' class=' btn btn-primary'>Load Logs</button></div>
-                    <div class='col-12'></div>
-                </div>
+                </form>
             </div>
         </div>
         <div class='card'>

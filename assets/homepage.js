@@ -8,34 +8,19 @@ $(function () {
     homeP.fn.init();
     homeP.fn.initSelfInittedAjaxButtons();
     homeP.fn.initializeDealsLogTable();
-    //homeP.fn.initReloadTableBtn();
+
+    homeP.fn.initReloadTableBtn();
 });
 
-
-homeP.fn.initReloadTableBtn = function () {
-    homeP.el.reloadTableBtn.addEventListener('click', (ev) => {
-        if (ev instanceof Event) {
-            ev.preventDefault();
-        }
-        $.ajax({
-            url: 'getUsers',
-            data: { test: 'test' },
-            complete: function (data, status) {
-                let res = data.responseJSON;
-
-            }
-        });
-    });
-};
 
 homeP.fn.initializeDealsLogTable = function () {
     homeP.el.jDealLogsTable.DataTable(
         {
             "processing": true,
             "serverSide": true,
-          
+
             ajax: {
-                beforeSend: homeP.fn.beforeSend,
+                data: homeP.fn.beforeSend,
                 url: 'getDealsLog',
                 type: "POST",
                 dataType: "json",
@@ -64,17 +49,32 @@ homeP.fn.initializeDealsLogTable = function () {
         }
     );
     homeP.el.dDealLogsTable = homeP.el.jDealLogsTable.DataTable();
+    homeP.el.logsForm.addEventListener('keydown',ev => {
+        if(ev.key == 'Enter'){
+            ev.preventDefault;
+            homeP.el.dDealLogsTable.ajax.reload(null,false);
+        }
+    });
 };
 
 homeP.fn.beforeSend = function (req) {
-    console.log(req);
+    let f = new FormData(homeP.el.logsForm);
+    for(var pair of f.entries()) {
+        req[pair[0]] = pair[1];
+    }
 };
 
 
 homeP.fn.init = function () {
-    homeP.el.reloadTableBtn = document.querySelector('.reload_table_btn');
+    homeP.el.reloadTableBtns = Array.from(document.querySelectorAll('.reload_table.btn'));
     homeP.el.dealLogsTable = document.querySelector('.deals_log_table');
     homeP.el.jDealLogsTable = $(homeP.el.dealLogsTable);
+    homeP.el.logsForm = document.querySelector('form[name="load_deals_log_form"]');
+    homeP.el.from = document.querySelector('form[name="load_deals_log_form"] input[name="from"]');
+    homeP.el.from.value = '';
+    homeP.el.to = document.querySelector('form[name="load_deals_log_form"] input[name="to"]');
+    homeP.el.to.value = '';
+
 }
 
 homeP.fn.initSelfInittedAjaxButtons = function () {
@@ -118,3 +118,13 @@ function getAjaxUrl() {
     return location.origin + pn + '/ajax.php/';
 }
 
+homeP.fn.initReloadTableBtn = function () {
+    homeP.el.reloadTableBtns.forEach(b => {
+        b.addEventListener('click', (ev) => {
+            if (ev instanceof Event) {
+                ev.preventDefault();
+            }
+            homeP.el.dDealLogsTable.ajax.reload(null,false);
+        });
+    });
+};

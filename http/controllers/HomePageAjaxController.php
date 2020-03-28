@@ -4,6 +4,7 @@ namespace csv\http\controllers;
 
 use csv\common\Utils;
 use csv\http\utils\AjaxResponse;
+use DateTime;
 use MysqliDb;
 
 class HomePageAjaxController
@@ -318,6 +319,14 @@ class HomePageAjaxController
         try {
             $req = $_REQUEST;
             AjaxResponse::$resPayload['reqest'] = $_REQUEST;
+            $from = \DateTime::createFromFormat('Y-m-d H:i:s',$req['from'].'  00:00:00');
+            if($from instanceof \DateTime){
+                $req['from_tstamp'] = $from->getTimestamp();
+            }
+            $to = \DateTime::createFromFormat('Y-m-d H:i:s',$req['to'].' 23:59:59');
+            if($to instanceof \DateTime){
+                $req['to_tstamp'] = $to->getTimestamp();
+            }
 
             $dbData = $this->loadDealsLogData($req);
             $db = MysqliDb::getInstance();
@@ -357,6 +366,21 @@ class HomePageAjaxController
             }
         }
         $db->withTotalCount(true);
+
+        if(!empty($req['to_tstamp'])){
+            $db->where('l.deal_tstamp',$req['to_tstamp'],'<=');
+        }
+        if(!empty($req['from_tstamp'])){
+            $db->where('l.deal_tstamp',$req['from_tstamp'],'>=');
+        }
+
+        if(!empty($req['deal'])){
+            $db->where('d.type_label_en','%'.$req['deal'].'%','LIKE');
+        }
+        if(!empty($req['client'])){
+            $db->where('c.username','%'.$req['client'].'%','LIKE');
+        }
+      
 
         if (isset($req['start']) && isset($req['length'])) {
             $db->pageLimit = $req['length'];

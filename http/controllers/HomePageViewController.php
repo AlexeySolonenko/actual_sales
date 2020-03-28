@@ -11,6 +11,7 @@ class HomePageViewController {
         $assetsPathString = file_get_contents('./configs/assets_path.json');
         $m['assets_path'] = $_SERVER['HTTP_HOST'].'/'.json_decode($assetsPathString,true)['path'];
         $m['csv_url']= preg_replace('/\s/','%20','tab4lioz.beget.tech/TRIAL CSV - CSV.csv');
+        $m['now'] = date('Y-m-d',strtotime('now'));
 
         return $m;
     }

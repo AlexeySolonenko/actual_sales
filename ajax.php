@@ -10,6 +10,12 @@ $pathparts = explode('/', $pathInfo);
 
 $method = $pathparts[0];
 $controller = new HomePageAjaxController();
+/**
+ * @todo to provide an individual sanitation and validation for each call 
+ */
+foreach($_REQUEST as $key => $val){
+    $_REQUEST[$key] = filter_var($val,FILTER_SANITIZE_STRING);
+}
 
 if (method_exists($controller, $method)) {
     echo $controller->$method();
