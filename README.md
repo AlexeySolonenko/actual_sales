@@ -46,7 +46,10 @@ For the app to work it needs:
 - path to `db_config.json` file. This file is supposed to be out of the publicly avaialble repository. This file should provide a json object for DB connection, <a href="https://github.com/ThingEngineer/PHP-MySQLi-Database-Class#initialization" target="_blank">like</a>
 - `assets_path.json`, if needed
 
-I run it locally with <a href="https://marketplace.visualstudio.com/items?itemName=brapifra.phpserver" target="_blank">VS Code PHP server</a>, as well as <a href="http://tab4lioz.beget.tech/developer_trial/index.php" target="_blank">remotely</a> on Ubuntu.    
+I run it locally with <a href="https://marketplace.visualstudio.com/items?itemName=brapifra.phpserver" target="_blank">VS Code PHP server</a>, as well as <a href="http://tab4lioz.beget.tech/developer_trial/index.php" target="_blank">remotely</a> on Ubuntu.  
+
+Home url is normally:
+http://localhost:3000/index.php
 
 
 ### DB

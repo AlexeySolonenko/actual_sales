@@ -20,7 +20,7 @@ homeP.fn.initializeDealsLogTable = function () {
         {
             "processing": true,
             "serverSide": true,
-            'searching':false,
+            'searching': false,
 
             ajax: {
                 data: homeP.fn.beforeSend,
@@ -52,10 +52,10 @@ homeP.fn.initializeDealsLogTable = function () {
         }
     );
     homeP.el.dDealLogsTable = homeP.el.jDealLogsTable.DataTable();
-    homeP.el.logsForm.addEventListener('keydown',ev => {
-        if(ev.key == 'Enter'){
+    homeP.el.logsForm.addEventListener('keydown', ev => {
+        if (ev.key == 'Enter') {
             ev.preventDefault;
-            homeP.el.dDealLogsTable.ajax.reload(null,false);
+            homeP.el.dDealLogsTable.ajax.reload(null, false);
         }
     });
 };
@@ -63,7 +63,7 @@ homeP.fn.initializeDealsLogTable = function () {
 homeP.fn.beforeSend = function (req) {
     console.log(req);
     let f = new FormData(homeP.el.logsForm);
-    for(var pair of f.entries()) {
+    for (var pair of f.entries()) {
         req[pair[0]] = pair[1];
     }
 };
@@ -81,7 +81,8 @@ homeP.fn.init = function () {
     homeP.el.uploadCsvBtn = document.querySelector('button[name="uploadCsv"]');
     homeP.el.csvFileInp = document.querySelector('input[name="csv"]');
     homeP.el.dropzone = document.querySelector('.dropzone');
-    
+    homeP.el.defaultUrl = document.querySelector('.default-url');
+
 }
 
 homeP.fn.initSelfInittedAjaxButtons = function () {
@@ -95,28 +96,28 @@ homeP.fn.initSelfInittedAjaxButtons = function () {
     });
 };
 
-homeP.fn.initializeUploadCsvBtn = function(){
-    homeP.el.uploadCsvBtn.addEventListener('click',ev => {
+homeP.fn.initializeUploadCsvBtn = function () {
+    homeP.el.uploadCsvBtn.addEventListener('click', ev => {
         ev.preventDefault();
-        function uploadFromRemoteServer(){
-            $.ajax({url:'uploadCsv'});
-            homeP.el.dDealLogsTable.ajax.reload(null,false);
+        function uploadFromRemoteServer() {
+            $.ajax({ url: 'uploadCsv' });
+            homeP.el.dDealLogsTable.ajax.reload(null, false);
             return;
         }
-        if(homeP.el.csvFileInp.value.length > 2 && homeP.el.csvFileInp.files.length > 0){
+        if (homeP.el.csvFileInp.value.length > 2 && homeP.el.csvFileInp.files.length > 0) {
             let fileName = homeP.el.csvFileInp.files[0].name.split('.');
-            let ext = fileName[fileName.length-1];
-            if(ext != 'csv'){
+            let ext = fileName[fileName.length - 1];
+            if (ext != 'csv') {
                 uploadFromRemoteServer();
             } else {
                 let f = new FormData();
-                f.append('csv',homeP.el.csvFileInp.files[0]);
+                f.append('csv', homeP.el.csvFileInp.files[0]);
 
                 $.ajax({
                     type: "POST",
                     url: "uploadCsv",
                     completed: function (data) {
-                        homeP.el.dDealLogsTable.ajax.reload(null,false);
+                        homeP.el.dDealLogsTable.ajax.reload(null, false);
                     },
                     async: true,
                     data: f,
@@ -130,24 +131,40 @@ homeP.fn.initializeUploadCsvBtn = function(){
             uploadFromRemoteServer();
         }
     });
-    homeP.el.csvFileInp.addEventListener('click',() => {
+    homeP.el.csvFileInp.addEventListener('click', () => {
         homeP.el.csvFileInp.value = '';
         homeP.el.csvFileInp.files.length = 0;
     })
 };
 
-homeP.fn.initializeDropzone= function(){
-    homeP.el.dropzone.addEventListener('dragover',function(){
+homeP.fn.initializeDropzone = function () {
+    window.addEventListener("dragover", function (e) {
+        if (e instanceof Event) {
+            e.preventDefault();
+        }
+    }, false);
+    window.addEventListener("drop", function (e) {
+        if (e instanceof Event) {
+            e.preventDefault();
+        }
+    }, false)
+    homeP.el.dropzone.addEventListener('dragover', function () {
         homeP.el.dropzone.classList.add('bg-secondary');
     });
-    homeP.el.dropzone.addEventListener('dragleave',function(){
+    homeP.el.dropzone.addEventListener('dragleave', function () {
         homeP.el.dropzone.classList.remove('bg-secondary');
     });
-    homeP.el.dropzone.addEventListener('drop',function(ev){
+    homeP.el.dropzone.addEventListener('drop', function (ev) {
         ev.preventDefault();
         homeP.el.dropzone.classList.remove('bg-secondary');
         homeP.el.csvFileInp.files = ev.dataTransfer.files;
     });
+    homeP.el.defaultUrl.addEventListener('drop', function (ev) {
+        ev.preventDefault();
+        homeP.el.dropzone.classList.remove('bg-secondary');
+        homeP.el.csvFileInp.files = ev.dataTransfer.files;
+    });
+
 };
 
 $(document).ajaxComplete((event, xhr, settings) => {
@@ -184,7 +201,7 @@ homeP.fn.initReloadTableBtn = function () {
             if (ev instanceof Event) {
                 ev.preventDefault();
             }
-            homeP.el.dDealLogsTable.ajax.reload(null,false);
+            homeP.el.dDealLogsTable.ajax.reload(null, false);
         });
     });
 };
