@@ -1,4 +1,5 @@
 vendor
+tmp
 configs
 .vscode
 php_errors.log

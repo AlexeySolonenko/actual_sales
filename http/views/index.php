@@ -1,35 +1,75 @@
 <!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <title>CSV & MySQL app</title>
     <meta name="description" content="CSV & MySQL app">
     <meta name="author" content="Alex">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" >
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
     <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script> -->
-    <script
-  src="https://code.jquery.com/jquery-3.4.1.min.js"
-  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-  crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js" ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
 
-    <script src='http://<?=$m['assets_path'];?>/assets/homepage.js' ></script>
+    <script src='http://<?= $m['assets_path']; ?>/assets/homepage.js'></script>
 </head>
 
 <body>
     <div class='container'>
-        <div class='card'>
+        <div class='card my-3'>
             <div class='card-header'>Table Management</div>
             <div class='card-body'>
                 <div class='form-row'>
                     <div class='col-auto mr-auto'><button data-btn-self-init-ajax='createTable' class=' btn btn-success'><b>+</b> Create table</button></div>
                     <div class='col-auto ml-auto'><button data-btn-self-init-ajax='deleteTable' class=' btn btn-danger'><b>X</b> Delete table</button></div>
                 </div>
-                <div class='row'>
-                    <button class=' reload_table_btn'>TEST BUTTON</button>
+            </div>
+        </div>
+        <div class='card my-3'>
+            <div class='card-header'>Upload CSV</div>
+            <div class='card-body'>
+                <div class='form-row'>
+                    <div class='col-auto mr-auto'><input type='text' disabled value=<?= $m['csv_url']; ?> /></div>
+                    <div class='col-auto mr-auto'><button data-btn-self-init-ajax='uploadCsv' class=' btn btn-success'><b>+</b> Upload CSV from URL</button></div>
+                </div>
+            </div>
+        </div>
+        <div class='card my-3'>
+            <div class='card-header'>Results Table </div>
+            <div class='card-body'>
+                <div class='form-row'>
+                    <div class='col-auto ml-auto'><button data-btn-self-init-ajax='getDealsLog' class=' btn btn-primary'>Load Logs</button></div>
+                    <div class='col-12'></div>
+                    <div class='col-12 '>
+                        <table class=' deals_log_table '>
+                            <thead>
+                                <tr>
+                                    <th data-data='client'>Client</th>
+                                    <th data-data='deal'>Deal</th>
+                                    <th data-data='time_string' data-sort="time">Time</th>
+                                    <th data-data='accepted'>Accepted</th>
+                                    <th data-data='refused'>Refused</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class='col-auto ml-auto'><button data-btn-self-init-ajax='getDealsLog' class=' btn btn-primary'>Load Logs</button></div>
+                    <div class='col-12'></div>
                 </div>
             </div>
         </div>

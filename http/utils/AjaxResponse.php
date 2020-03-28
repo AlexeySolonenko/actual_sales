@@ -4,9 +4,13 @@ namespace csv\http\utils;
 
 class AjaxResponse
 {
-    static $errors = [];
+   
     static $confirms = [];
     static $data = [];
+    static $draw;
+    static $errors = [];
+    static $recordsTotal;
+    static $recordsFiltered;
     static $resPayload = [];
 
 
