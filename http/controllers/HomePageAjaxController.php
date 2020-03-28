@@ -375,7 +375,7 @@ class HomePageAjaxController
         if (isset($req['start']) && isset($req['length'])) {
             $db->pageLimit = $req['length'];
 
-            return $db->paginate('deals_log l', $req['start'] + 1, $columns);
+            return $db->paginate('deals_log l', ($req['start']/$req['length']) + 1, $columns);
         } else {
             return $db->get('deals_log l', null, $columns);
         }

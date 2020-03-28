@@ -20,7 +20,7 @@ homeP.fn.initializeDealsLogTable = function () {
         {
             "processing": true,
             "serverSide": true,
-            'search':false,
+            'searching':false,
 
             ajax: {
                 data: homeP.fn.beforeSend,
