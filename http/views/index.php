@@ -35,9 +35,12 @@
         <div class='card my-3'>
             <div class='card-header'>Upload CSV</div>
             <div class='card-body'>
-                <div class='form-row'>
+                <div class='form-row p-2 dropzone' style="border:2px dashed black;">
+                    <div class='col-12 bg-ligth'>You don't need to upload a file. If a file input is empty, the file will be downloaded from a server.</div>
+                    <div class='col-12 bg-ligth'>Attach a file using input, or drag and drop.</div>
                     <div class='col-auto mr-auto'><input type='text' disabled value=<?= $m['csv_url']; ?> /></div>
-                    <div class='col-auto mr-auto'><button data-btn-self-init-ajax='uploadCsv' class=' btn btn-success'><b>+</b> Upload CSV from URL</button></div>
+                    <div class='col-auto mr-auto'><label>Optional file<input type='file'  name='csv' /></label></div>
+                    <div class='col-auto mr-auto'><button name='uploadCsv' class=' btn btn-success'><b>+</b> Upload CSV from URL</button></div>
                 </div>
             </div>
         </div>

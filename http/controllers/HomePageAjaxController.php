@@ -17,21 +17,6 @@ class HomePageAjaxController
     const COL_ACCEPTED = 3;
     const COL_REFUSED = 4;
 
-    public function getUsers()
-    {
-        $req = $this->getUsersSanitizeValidate();
-
-        AjaxResponse::$confirms[] = 'test';
-        AjaxResponse::$confirms[] = 'test2';
-        AjaxResponse::$errors[] = 'test2';
-        AjaxResponse::$resPayload['test'] = 'test';
-        return AjaxResponse::respond();
-    }
-
-    protected function getUsersSanitizeValidate()
-    {
-    }
-
     public function createTable()
     {
         try {
@@ -172,16 +157,21 @@ class HomePageAjaxController
 
     protected function getFile()
     {
-        set_time_limit(0);
-        $fp = fopen('./tmp/localfile.tmp', 'w+');
-        $ch = curl_init(preg_replace('/\s/', '%20', 'tab4lioz.beget.tech/TRIAL CSV - CSV.csv'));
-        curl_setopt($ch, CURLOPT_TIMEOUT, 50);
-        curl_setopt($ch, CURLOPT_FILE, $fp);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-        curl_exec($ch);
-        curl_close($ch);
-        fclose($fp);
-        $file = new \SplFileObject('./tmp/localfile.tmp', 'r');
+        $ajaxedFile = $_FILES['csv'];
+        if (isset($ajaxedFile['error']) && $ajaxedFile['error'] == 0 && $ajaxedFile['size'] > 1) {
+            $file = new \SplFileObject($ajaxedFile['tmp_name'], 'r');
+        } else {
+            set_time_limit(0);
+            $fp = fopen('./tmp/localfile.tmp', 'w+');
+            $ch = curl_init(preg_replace('/\s/', '%20', 'tab4lioz.beget.tech/TRIAL CSV - CSV.csv'));
+            curl_setopt($ch, CURLOPT_TIMEOUT, 50);
+            curl_setopt($ch, CURLOPT_FILE, $fp);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+            curl_exec($ch);
+            curl_close($ch);
+            fclose($fp);
+            $file = new \SplFileObject('./tmp/localfile.tmp', 'r');
+        }
 
         if ($file->isExecutable()) {
             AjaxResponse::$errors[] = 'Uploaded file is executable.';
@@ -319,12 +309,12 @@ class HomePageAjaxController
         try {
             $req = $_REQUEST;
             AjaxResponse::$resPayload['reqest'] = $_REQUEST;
-            $from = \DateTime::createFromFormat('Y-m-d H:i:s',$req['from'].'  00:00:00');
-            if($from instanceof \DateTime){
+            $from = \DateTime::createFromFormat('Y-m-d H:i:s', $req['from'] . '  00:00:00');
+            if ($from instanceof \DateTime) {
                 $req['from_tstamp'] = $from->getTimestamp();
             }
-            $to = \DateTime::createFromFormat('Y-m-d H:i:s',$req['to'].' 23:59:59');
-            if($to instanceof \DateTime){
+            $to = \DateTime::createFromFormat('Y-m-d H:i:s', $req['to'] . ' 23:59:59');
+            if ($to instanceof \DateTime) {
                 $req['to_tstamp'] = $to->getTimestamp();
             }
 
@@ -367,25 +357,25 @@ class HomePageAjaxController
         }
         $db->withTotalCount(true);
 
-        if(!empty($req['to_tstamp'])){
-            $db->where('l.deal_tstamp',$req['to_tstamp'],'<=');
+        if (!empty($req['to_tstamp'])) {
+            $db->where('l.deal_tstamp', $req['to_tstamp'], '<=');
         }
-        if(!empty($req['from_tstamp'])){
-            $db->where('l.deal_tstamp',$req['from_tstamp'],'>=');
+        if (!empty($req['from_tstamp'])) {
+            $db->where('l.deal_tstamp', $req['from_tstamp'], '>=');
         }
 
-        if(!empty($req['deal'])){
-            $db->where('d.type_label_en','%'.$req['deal'].'%','LIKE');
+        if (!empty($req['deal'])) {
+            $db->where('d.type_label_en', '%' . $req['deal'] . '%', 'LIKE');
         }
-        if(!empty($req['client'])){
-            $db->where('c.username','%'.$req['client'].'%','LIKE');
+        if (!empty($req['client'])) {
+            $db->where('c.username', '%' . $req['client'] . '%', 'LIKE');
         }
-      
+
 
         if (isset($req['start']) && isset($req['length'])) {
             $db->pageLimit = $req['length'];
-         
-            return $db->paginate('deals_log l', $req['start']+1, $columns);
+
+            return $db->paginate('deals_log l', $req['start'] + 1, $columns);
         } else {
             return $db->get('deals_log l', null, $columns);
         }
