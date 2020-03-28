@@ -7,7 +7,7 @@
 
 [Deployed App](#deployed-app)
 
-[Local App](#local-deploy)
+[Local](#local)
 
 [DB](#db)
 
@@ -34,7 +34,7 @@ Please, Ctrl+F5 if there are problems with CDN.
 
 I apology for a lot of things missing, such as ssl, phpdoc, proper sanitation, and many others. But I had a relatively short time - just one evening, to do the task.
 
-### Local App
+### Local
 
 Clone repo
 
@@ -51,14 +51,15 @@ I run it locally with <a href="https://marketplace.visualstudio.com/items?itemNa
 
 ### DB
 
-Runs on MySQL. Queries are stored in JSON. There are two buttons to delete and re-create the tables.
+Runs on MySQL. Table creation queries are stored in <a href='https://github.com/AlexeySolonenko/actual_sales/blob/master/data/create_tables_queries.json' target="_blank">JSON</a>. There are two buttons to delete and re-create the tables. 
+
 
 ## Fulfillment report
 
 ### Implemented
 
 - table creation - 2 buttons + Ajax
-- import CSV. line-by-line parsing. Sanitation, security checks, tools to adjust performance. Customly written parser by me.
+- import CSV, line-by-line parsing. Sanitation, security checks, tools to adjust performance. Customly written parser by me.
 - import CSV - you can either drag&drop a file, or do nothing - the file will be downloaded from a remote host by a default URL.
 - Data representation - DataTables + pagination, sorting.
 - using POST instead of GET
